@@ -63,6 +63,15 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Documentação Interativa (Swagger)
+
+A API possui uma interface interativa (Swagger UI) para facilitar o teste das rotas.
+
+Após iniciar o servidor (por padrão na porta `3000`), acesse a documentação no navegador:
+👉 **[http://localhost:3000/api/docs](http://localhost:3000/api/docs)**
+
+> **Nota de Autenticação**: Para testar rotas protegidas que exigem login, gere um token na rota `POST /auth/login` e insira clicando no botão verde **"Authorize"** no topo da página do Swagger.
+
 ## Arquitetura e Modelagem
 
 Os modelos iniciais contêm:
