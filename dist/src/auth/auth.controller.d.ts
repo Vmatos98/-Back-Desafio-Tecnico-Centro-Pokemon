@@ -1,14 +1,15 @@
 import { AuthService } from './auth.service';
-import { Prisma } from '@prisma/client';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
-    register(body: Prisma.UserCreateInput): Promise<{
+    register(body: RegisterDto): Promise<{
         id: number;
         email: string;
         createdAt: Date;
     }>;
-    login(body: Record<string, any>): Promise<{
+    login(body: LoginDto): Promise<{
         access_token: string;
     }>;
 }
