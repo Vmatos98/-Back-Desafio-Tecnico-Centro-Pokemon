@@ -99,24 +99,55 @@ export class PokemonService {
     });
   }
 
-  async findAllMine(userId: number) {
-    return this.prisma.pokemon.findMany({
-      where: { userId },
-      orderBy: { id: 'asc' },
-    });
+  async findAllMine(userId: number, page: number = 1) {
+    const limit = 8;
+    const skip = (page - 1) * limit;
+
+    const [pokemons, totalItems] = await Promise.all([
+      this.prisma.pokemon.findMany({
+        where: { userId },
+        orderBy: { id: 'asc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.pokemon.count({
+        where: { userId },
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return {
+      data: pokemons,
+      meta: {
+        totalItems,
+        totalPages: totalPages === 0 ? 1 : totalPages,
+        currentPage: page,
+      },
+    };
   }
 
-  async findAllOthers(userId: number) {
-    const pokemons = await this.prisma.pokemon.findMany({
-      where: { userId: { not: userId } },
-      orderBy: { id: 'asc' },
-      include: {
-        user: { select: { id: true, email: true } },
-      },
-    });
+  async findAllOthers(userId: number, page: number = 1) {
+    const limit = 20;
+    const skip = (page - 1) * limit;
+
+    const [pokemonsRaw, totalItems] = await Promise.all([
+      this.prisma.pokemon.findMany({
+        where: { userId: { not: userId } },
+        orderBy: { id: 'asc' },
+        include: {
+          user: { select: { id: true, email: true } },
+        },
+        skip,
+        take: limit,
+      }),
+      this.prisma.pokemon.count({
+        where: { userId: { not: userId } },
+      }),
+    ]);
 
     // Mascara o e-mail dos outros treinadores (Ex: test@gmail.com -> te**@gmail.com)
-    return pokemons.map((pokemon) => {
+    const data = pokemonsRaw.map((pokemon) => {
       if (pokemon.user && pokemon.user.email) {
         const [username, domain] = pokemon.user.email.split('@');
         const censoredUsername =
@@ -128,6 +159,17 @@ export class PokemonService {
       }
       return pokemon;
     });
+
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return {
+      data,
+      meta: {
+        totalItems,
+        totalPages: totalPages === 0 ? 1 : totalPages,
+        currentPage: page,
+      },
+    };
   }
 
   async findOne(id: number) {

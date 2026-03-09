@@ -83,21 +83,48 @@ let PokemonService = class PokemonService {
             },
         });
     }
-    async findAllMine(userId) {
-        return this.prisma.pokemon.findMany({
-            where: { userId },
-            orderBy: { id: 'asc' },
-        });
-    }
-    async findAllOthers(userId) {
-        const pokemons = await this.prisma.pokemon.findMany({
-            where: { userId: { not: userId } },
-            orderBy: { id: 'asc' },
-            include: {
-                user: { select: { id: true, email: true } },
+    async findAllMine(userId, page = 1) {
+        const limit = 8;
+        const skip = (page - 1) * limit;
+        const [pokemons, totalItems] = await Promise.all([
+            this.prisma.pokemon.findMany({
+                where: { userId },
+                orderBy: { id: 'asc' },
+                skip,
+                take: limit,
+            }),
+            this.prisma.pokemon.count({
+                where: { userId },
+            }),
+        ]);
+        const totalPages = Math.ceil(totalItems / limit);
+        return {
+            data: pokemons,
+            meta: {
+                totalItems,
+                totalPages: totalPages === 0 ? 1 : totalPages,
+                currentPage: page,
             },
-        });
-        return pokemons.map((pokemon) => {
+        };
+    }
+    async findAllOthers(userId, page = 1) {
+        const limit = 20;
+        const skip = (page - 1) * limit;
+        const [pokemonsRaw, totalItems] = await Promise.all([
+            this.prisma.pokemon.findMany({
+                where: { userId: { not: userId } },
+                orderBy: { id: 'asc' },
+                include: {
+                    user: { select: { id: true, email: true } },
+                },
+                skip,
+                take: limit,
+            }),
+            this.prisma.pokemon.count({
+                where: { userId: { not: userId } },
+            }),
+        ]);
+        const data = pokemonsRaw.map((pokemon) => {
             if (pokemon.user && pokemon.user.email) {
                 const [username, domain] = pokemon.user.email.split('@');
                 const censoredUsername = username.length > 2
@@ -107,6 +134,15 @@ let PokemonService = class PokemonService {
             }
             return pokemon;
         });
+        const totalPages = Math.ceil(totalItems / limit);
+        return {
+            data,
+            meta: {
+                totalItems,
+                totalPages: totalPages === 0 ? 1 : totalPages,
+                currentPage: page,
+            },
+        };
     }
     async findOne(id) {
         const pokemon = await this.prisma.pokemon.findUnique({

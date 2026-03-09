@@ -24,35 +24,49 @@ export declare class PokemonController {
         imageUrl: string | null;
         userId: number;
     }>;
-    findAllMine(user: any): Promise<{
-        id: number;
-        name: string;
-        createdAt: Date;
-        updatedAt: Date;
-        type: string;
-        level: number;
-        hp: number;
-        pokedexNumber: number;
-        imageUrl: string | null;
-        userId: number;
-    }[]>;
-    findAllOthers(user: any): Promise<({
-        user: {
+    findAllMine(user: any, page?: string): Promise<{
+        data: {
             id: number;
-            email: string;
+            name: string;
+            createdAt: Date;
+            updatedAt: Date;
+            type: string;
+            level: number;
+            hp: number;
+            pokedexNumber: number;
+            imageUrl: string | null;
+            userId: number;
+        }[];
+        meta: {
+            totalItems: number;
+            totalPages: number;
+            currentPage: number;
         };
-    } & {
-        id: number;
-        name: string;
-        createdAt: Date;
-        updatedAt: Date;
-        type: string;
-        level: number;
-        hp: number;
-        pokedexNumber: number;
-        imageUrl: string | null;
-        userId: number;
-    })[]>;
+    }>;
+    findAllOthers(user: any, page?: string): Promise<{
+        data: ({
+            user: {
+                id: number;
+                email: string;
+            };
+        } & {
+            id: number;
+            name: string;
+            createdAt: Date;
+            updatedAt: Date;
+            type: string;
+            level: number;
+            hp: number;
+            pokedexNumber: number;
+            imageUrl: string | null;
+            userId: number;
+        })[];
+        meta: {
+            totalItems: number;
+            totalPages: number;
+            currentPage: number;
+        };
+    }>;
     findOne(id: number): Promise<{
         user: {
             id: number;
