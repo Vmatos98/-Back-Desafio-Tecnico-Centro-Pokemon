@@ -12,10 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 class RegisterDto {
+    name;
     email;
     password;
 }
 exports.RegisterDto = RegisterDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'O nome do usuário/treinador',
+        example: 'Ash Ketchum',
+    }),
+    __metadata("design:type", String)
+], RegisterDto.prototype, "name", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         description: 'O endereço de e-mail para registro do usuário',

@@ -14,9 +14,9 @@ export declare class PokemonService {
     }>;
     create(createPokemonDto: CreatePokemonDto, userId: number): Promise<{
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -26,9 +26,9 @@ export declare class PokemonService {
     }>;
     findAllMine(userId: number): Promise<{
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -43,9 +43,9 @@ export declare class PokemonService {
         };
     } & {
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -60,9 +60,9 @@ export declare class PokemonService {
         };
     } & {
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -77,9 +77,9 @@ export declare class PokemonService {
         };
     } & {
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -89,9 +89,9 @@ export declare class PokemonService {
     }>;
     remove(id: number, userId: number): Promise<{
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;

@@ -6,6 +6,7 @@ export declare class UsersService {
     findByEmail(email: string): Promise<{
         id: number;
         email: string;
+        name: string;
         password: string;
         createdAt: Date;
         updatedAt: Date;
@@ -13,6 +14,7 @@ export declare class UsersService {
     create(data: Prisma.UserCreateInput): Promise<{
         id: number;
         email: string;
+        name: string;
         createdAt: Date;
     }>;
 }

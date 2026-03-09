@@ -29,24 +29,36 @@ let PokemonService = class PokemonService {
             const hpStat = data.stats.find((statData) => statData.stat.name === 'hp');
             const hp = hpStat ? hpStat.base_stat : 0;
             const typeTranslations = {
-                electric: 'Elétrico', fire: 'Fogo', water: 'Água', grass: 'Planta',
-                bug: 'Inseto', poison: 'Venenoso', normal: 'Normal', ground: 'Terra',
-                flying: 'Voador', psychic: 'Psíquico', rock: 'Pedra', ice: 'Gelo',
-                ghost: 'Fantasma', dragon: 'Dragão', steel: 'Aço', fairy: 'Fada'
+                electric: 'Elétrico',
+                fire: 'Fogo',
+                water: 'Água',
+                grass: 'Planta',
+                bug: 'Inseto',
+                poison: 'Venenoso',
+                normal: 'Normal',
+                ground: 'Terra',
+                flying: 'Voador',
+                psychic: 'Psíquico',
+                rock: 'Pedra',
+                ice: 'Gelo',
+                ghost: 'Fantasma',
+                dragon: 'Dragão',
+                steel: 'Aço',
+                fairy: 'Fada',
             };
             const type = data.types
                 .map((typeData) => typeTranslations[typeData.type.name] || typeData.type.name)
                 .join(', ');
-            const imageUrl = data.sprites?.other?.['official-artwork']?.front_default
-                || data.sprites?.front_default
-                || null;
+            const imageUrl = data.sprites?.other?.['official-artwork']?.front_default ||
+                data.sprites?.front_default ||
+                null;
             return {
                 name,
                 type,
                 hp,
                 pokedexNumber: data.id,
                 level: 1,
-                imageUrl
+                imageUrl,
             };
         }
         catch (error) {

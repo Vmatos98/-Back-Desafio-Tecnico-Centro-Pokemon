@@ -14,9 +14,9 @@ export declare class PokemonController {
     }>;
     create(createPokemonDto: CreatePokemonDto, user: any): Promise<{
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -26,9 +26,9 @@ export declare class PokemonController {
     }>;
     findAllMine(user: any): Promise<{
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -43,9 +43,9 @@ export declare class PokemonController {
         };
     } & {
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -60,9 +60,9 @@ export declare class PokemonController {
         };
     } & {
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -77,9 +77,9 @@ export declare class PokemonController {
         };
     } & {
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -89,9 +89,9 @@ export declare class PokemonController {
     }>;
     remove(id: number, user: any): Promise<{
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;

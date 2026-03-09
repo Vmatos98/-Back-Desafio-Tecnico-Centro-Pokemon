@@ -4,6 +4,6 @@ import { PokemonController } from './pokemon.controller';
 
 @Module({
   providers: [PokemonService],
-  controllers: [PokemonController]
+  controllers: [PokemonController],
 })
 export class PokemonModule {}

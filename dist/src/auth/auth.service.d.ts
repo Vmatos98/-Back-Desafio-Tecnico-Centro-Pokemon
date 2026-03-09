@@ -12,6 +12,7 @@ export declare class AuthService {
     register(data: Prisma.UserCreateInput): Promise<{
         id: number;
         email: string;
+        name: string;
         createdAt: Date;
     }>;
 }
