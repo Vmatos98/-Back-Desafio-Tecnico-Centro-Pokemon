@@ -63,6 +63,15 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Testes Automatizados
+
+O backend conta com uma suite de testes unitários (utilizando Jest e mocks avançados) cobrindo os casos de uso de Autenticação e as principais lógicas de negócio do CRUD de Pokémons.
+
+Para rodar os testes, execute o seguinte comando:
+```bash
+$ npm run test
+```
+
 ## Documentação Interativa (Swagger)
 
 A API possui uma interface interativa (Swagger UI) para facilitar o teste das rotas.

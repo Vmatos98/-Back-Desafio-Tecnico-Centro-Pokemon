@@ -18,10 +18,14 @@ const swagger_1 = require("@nestjs/swagger");
 const auth_service_1 = require("./auth.service");
 const register_dto_1 = require("./dto/register.dto");
 const login_dto_1 = require("./dto/login.dto");
+const jwt_auth_guard_1 = require("./guards/jwt-auth.guard");
+const users_service_1 = require("../users/users.service");
 let AuthController = class AuthController {
     authService;
-    constructor(authService) {
+    usersService;
+    constructor(authService, usersService) {
         this.authService = authService;
+        this.usersService = usersService;
     }
     async register(body) {
         return this.authService.register(body);
@@ -33,11 +37,16 @@ let AuthController = class AuthController {
         }
         return this.authService.login(user);
     }
+    async getProfile(req) {
+        return this.usersService.findByEmail(req.user.email);
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('register'),
-    (0, swagger_1.ApiOperation)({ summary: 'Registrar um novo usuário (treinador/pesquisador)' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Registrar um novo usuário (treinador/pesquisador)',
+    }),
     (0, swagger_1.ApiResponse)({ status: 201, description: 'Usuário cadastrado com sucesso.' }),
     (0, swagger_1.ApiResponse)({ status: 409, description: 'E-mail já está em uso.' }),
     __param(0, (0, common_1.Body)()),
@@ -49,16 +58,32 @@ __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)('login'),
     (0, swagger_1.ApiOperation)({ summary: 'Fazer login no sistema e obter o Token JWT' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Token de acesso gerado com sucesso.' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Token de acesso gerado com sucesso.',
+    }),
     (0, swagger_1.ApiResponse)({ status: 401, description: 'Credenciais inválidas.' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [login_dto_1.LoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('profile'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Obter os dados do usuário autenticado atual' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Dados do usuário retornados com sucesso.' }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Não autorizado (Token inválido ou ausente).' }),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getProfile", null);
 exports.AuthController = AuthController = __decorate([
     (0, swagger_1.ApiTags)('Auth'),
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        users_service_1.UsersService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

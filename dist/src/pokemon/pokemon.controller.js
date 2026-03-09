@@ -31,11 +31,13 @@ let PokemonController = class PokemonController {
     create(createPokemonDto, user) {
         return this.pokemonService.create(createPokemonDto, user.id);
     }
-    findAllMine(user) {
-        return this.pokemonService.findAllMine(user.id);
+    findAllMine(user, page) {
+        const pageNumber = page ? parseInt(page, 10) : 1;
+        return this.pokemonService.findAllMine(user.id, isNaN(pageNumber) ? 1 : pageNumber);
     }
-    findAllOthers(user) {
-        return this.pokemonService.findAllOthers(user.id);
+    findAllOthers(user, page) {
+        const pageNumber = page ? parseInt(page, 10) : 1;
+        return this.pokemonService.findAllOthers(user.id, isNaN(pageNumber) ? 1 : pageNumber);
     }
     findOne(id) {
         return this.pokemonService.findOne(id);
@@ -51,9 +53,19 @@ exports.PokemonController = PokemonController;
 __decorate([
     (0, common_1.Get)('search/:query'),
     (0, swagger_1.ApiOperation)({ summary: 'Pesquisar dados de um Pokémon na PokeAPI oficial' }),
-    (0, swagger_1.ApiParam)({ name: 'query', description: 'Nome ou ID oficial da Pokedex', example: 'pikachu' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Dados JSON do Pokémon retornados diretamente da PokeAPI.' }),
-    (0, swagger_1.ApiResponse)({ status: 404, description: 'Pokémon não encontrado na PokeAPI.' }),
+    (0, swagger_1.ApiParam)({
+        name: 'query',
+        description: 'Nome ou ID oficial da Pokedex',
+        example: 'pikachu',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Dados JSON do Pokémon retornados diretamente da PokeAPI.',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 404,
+        description: 'Pokémon não encontrado na PokeAPI.',
+    }),
     __param(0, (0, common_1.Param)('query')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -63,8 +75,13 @@ __decorate([
     (0, common_1.Post)(),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiOperation)({ summary: 'Capturar (cadastrar) um novo Pokémon associando ao usuário atual' }),
-    (0, swagger_1.ApiResponse)({ status: 201, description: 'Pokémon salvo na sua lista com sucesso.' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Capturar (cadastrar) um novo Pokémon associando ao usuário atual',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 201,
+        description: 'Pokémon salvo na sua lista com sucesso.',
+    }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
@@ -75,31 +92,45 @@ __decorate([
     (0, common_1.Get)('mine'),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiOperation)({ summary: 'Listar todos os Pokémons que pertencem exclusivamente ao usuário logado' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Listar todos os Pokémons que pertencem exclusivamente ao usuário logado',
+    }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Sua lista retornou com sucesso.' }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.Query)('page')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], PokemonController.prototype, "findAllMine", null);
 __decorate([
     (0, common_1.Get)('others'),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiOperation)({ summary: 'Explorar Pokémons capturados por outros treinadores da plataforma' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Lista de outros jogadores retornada ocultando parcialmente os e-mails para proteção.' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Explorar Pokémons capturados por outros treinadores da plataforma',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Lista de outros jogadores retornada ocultando parcialmente os e-mails para proteção.',
+    }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.Query)('page')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], PokemonController.prototype, "findAllOthers", null);
 __decorate([
     (0, common_1.Get)(':id'),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiOperation)({ summary: 'Buscar detalhes de um Pokémon específico salvo no sistema pelo ID' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Buscar detalhes de um Pokémon específico salvo no sistema pelo ID',
+    }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Pokémon retornado com sucesso.' }),
-    (0, swagger_1.ApiResponse)({ status: 404, description: 'Pokémon não encontrado no sistema.' }),
+    (0, swagger_1.ApiResponse)({
+        status: 404,
+        description: 'Pokémon não encontrado no sistema.',
+    }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -109,9 +140,14 @@ __decorate([
     (0, common_1.Patch)(':id'),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiOperation)({ summary: 'Atualizar informações do SEU Pokémon (Requer Autoria)' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Atualizar informações do SEU Pokémon (Requer Autoria)',
+    }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Pokémon atualizado com sucesso.' }),
-    (0, swagger_1.ApiResponse)({ status: 403, description: 'Acesso negado (Não é o proprietário).' }),
+    (0, swagger_1.ApiResponse)({
+        status: 403,
+        description: 'Acesso negado (Não é o proprietário).',
+    }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, current_user_decorator_1.CurrentUser)()),
@@ -123,9 +159,14 @@ __decorate([
     (0, common_1.Delete)(':id'),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiOperation)({ summary: 'Deletar/Transferir o SEU Pokémon (Requer Autoria)' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Deletar/Transferir o SEU Pokémon (Requer Autoria)',
+    }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Pokémon removido com sucesso.' }),
-    (0, swagger_1.ApiResponse)({ status: 403, description: 'Acesso negado (Não é o proprietário).' }),
+    (0, swagger_1.ApiResponse)({
+        status: 403,
+        description: 'Acesso negado (Não é o proprietário).',
+    }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),

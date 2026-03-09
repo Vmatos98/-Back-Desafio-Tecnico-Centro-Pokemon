@@ -28,7 +28,8 @@ export class CreatePokemonDto {
   level!: number;
 
   @ApiProperty({
-    description: 'Os pontos de vida (HP) máximos do Pokémon, deve ser no mínimo 1',
+    description:
+      'Os pontos de vida (HP) máximos do Pokémon, deve ser no mínimo 1',
     example: 35,
     minimum: 1,
   })
@@ -37,8 +38,10 @@ export class CreatePokemonDto {
   hp!: number;
 
   @ApiProperty({
-    description: 'URL da imagem do Pokémon (Geralmente obtida via PokeAPI automagicamente na busca)',
-    example: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
+    description:
+      'URL da imagem do Pokémon (Geralmente obtida via PokeAPI automagicamente na busca)',
+    example:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
     required: false,
   })
   @IsString()

@@ -14,9 +14,9 @@ export declare class PokemonService {
     }>;
     create(createPokemonDto: CreatePokemonDto, userId: number): Promise<{
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -24,35 +24,49 @@ export declare class PokemonService {
         imageUrl: string | null;
         userId: number;
     }>;
-    findAllMine(userId: number): Promise<{
-        id: number;
-        createdAt: Date;
-        updatedAt: Date;
-        name: string;
-        type: string;
-        level: number;
-        hp: number;
-        pokedexNumber: number;
-        imageUrl: string | null;
-        userId: number;
-    }[]>;
-    findAllOthers(userId: number): Promise<({
-        user: {
+    findAllMine(userId: number, page?: number): Promise<{
+        data: {
             id: number;
-            email: string;
+            name: string;
+            createdAt: Date;
+            updatedAt: Date;
+            type: string;
+            level: number;
+            hp: number;
+            pokedexNumber: number;
+            imageUrl: string | null;
+            userId: number;
+        }[];
+        meta: {
+            totalItems: number;
+            totalPages: number;
+            currentPage: number;
         };
-    } & {
-        id: number;
-        createdAt: Date;
-        updatedAt: Date;
-        name: string;
-        type: string;
-        level: number;
-        hp: number;
-        pokedexNumber: number;
-        imageUrl: string | null;
-        userId: number;
-    })[]>;
+    }>;
+    findAllOthers(userId: number, page?: number): Promise<{
+        data: ({
+            user: {
+                id: number;
+                email: string;
+            };
+        } & {
+            id: number;
+            name: string;
+            createdAt: Date;
+            updatedAt: Date;
+            type: string;
+            level: number;
+            hp: number;
+            pokedexNumber: number;
+            imageUrl: string | null;
+            userId: number;
+        })[];
+        meta: {
+            totalItems: number;
+            totalPages: number;
+            currentPage: number;
+        };
+    }>;
     findOne(id: number): Promise<{
         user: {
             id: number;
@@ -60,9 +74,9 @@ export declare class PokemonService {
         };
     } & {
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -77,9 +91,9 @@ export declare class PokemonService {
         };
     } & {
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
@@ -89,9 +103,9 @@ export declare class PokemonService {
     }>;
     remove(id: number, userId: number): Promise<{
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
         type: string;
         level: number;
         hp: number;
