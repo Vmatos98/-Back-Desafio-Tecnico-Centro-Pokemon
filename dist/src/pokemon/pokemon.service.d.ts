@@ -13,28 +13,28 @@ export declare class PokemonService {
         imageUrl: any;
     }>;
     create(createPokemonDto: CreatePokemonDto, userId: number): Promise<{
+        id: number;
         name: string;
+        createdAt: Date;
+        updatedAt: Date;
         type: string;
         level: number;
         hp: number;
         pokedexNumber: number;
         imageUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         userId: number;
     }>;
     findAllMine(userId: number, page?: number): Promise<{
         data: {
+            id: number;
             name: string;
+            createdAt: Date;
+            updatedAt: Date;
             type: string;
             level: number;
             hp: number;
             pokedexNumber: number;
             imageUrl: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            id: number;
             userId: number;
         }[];
         meta: {
@@ -50,15 +50,15 @@ export declare class PokemonService {
                 email: string;
             };
         } & {
+            id: number;
             name: string;
+            createdAt: Date;
+            updatedAt: Date;
             type: string;
             level: number;
             hp: number;
             pokedexNumber: number;
             imageUrl: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            id: number;
             userId: number;
         })[];
         meta: {
@@ -73,15 +73,15 @@ export declare class PokemonService {
             email: string;
         };
     } & {
+        id: number;
         name: string;
+        createdAt: Date;
+        updatedAt: Date;
         type: string;
         level: number;
         hp: number;
         pokedexNumber: number;
         imageUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         userId: number;
     }>;
     update(id: number, updatePokemonDto: UpdatePokemonDto, userId: number): Promise<{
@@ -90,27 +90,27 @@ export declare class PokemonService {
             email: string;
         };
     } & {
+        id: number;
         name: string;
+        createdAt: Date;
+        updatedAt: Date;
         type: string;
         level: number;
         hp: number;
         pokedexNumber: number;
         imageUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         userId: number;
     }>;
     remove(id: number, userId: number): Promise<{
+        id: number;
         name: string;
+        createdAt: Date;
+        updatedAt: Date;
         type: string;
         level: number;
         hp: number;
         pokedexNumber: number;
         imageUrl: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        id: number;
         userId: number;
     }>;
 }
