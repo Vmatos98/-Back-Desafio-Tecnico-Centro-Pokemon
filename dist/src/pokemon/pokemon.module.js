@@ -16,7 +16,7 @@ exports.PokemonModule = PokemonModule;
 exports.PokemonModule = PokemonModule = __decorate([
     (0, common_1.Module)({
         providers: [pokemon_service_1.PokemonService],
-        controllers: [pokemon_controller_1.PokemonController]
+        controllers: [pokemon_controller_1.PokemonController],
     })
 ], PokemonModule);
 //# sourceMappingURL=pokemon.module.js.map
