@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -68,8 +69,9 @@ export class PokemonController {
       'Listar todos os Pokémons que pertencem exclusivamente ao usuário logado',
   })
   @ApiResponse({ status: 200, description: 'Sua lista retornou com sucesso.' })
-  findAllMine(@CurrentUser() user: any) {
-    return this.pokemonService.findAllMine(user.id);
+  findAllMine(@CurrentUser() user: any, @Query('page') page?: string) {
+    const pageNumber = page ? parseInt(page, 10) : 1;
+    return this.pokemonService.findAllMine(user.id, isNaN(pageNumber) ? 1 : pageNumber);
   }
 
   @Get('others')
@@ -84,8 +86,9 @@ export class PokemonController {
     description:
       'Lista de outros jogadores retornada ocultando parcialmente os e-mails para proteção.',
   })
-  findAllOthers(@CurrentUser() user: any) {
-    return this.pokemonService.findAllOthers(user.id);
+  findAllOthers(@CurrentUser() user: any, @Query('page') page?: string) {
+    const pageNumber = page ? parseInt(page, 10) : 1;
+    return this.pokemonService.findAllOthers(user.id, isNaN(pageNumber) ? 1 : pageNumber);
   }
 
   @Get(':id')

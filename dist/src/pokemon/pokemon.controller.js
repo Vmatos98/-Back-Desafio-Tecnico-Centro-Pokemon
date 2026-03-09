@@ -31,11 +31,13 @@ let PokemonController = class PokemonController {
     create(createPokemonDto, user) {
         return this.pokemonService.create(createPokemonDto, user.id);
     }
-    findAllMine(user) {
-        return this.pokemonService.findAllMine(user.id);
+    findAllMine(user, page) {
+        const pageNumber = page ? parseInt(page, 10) : 1;
+        return this.pokemonService.findAllMine(user.id, isNaN(pageNumber) ? 1 : pageNumber);
     }
-    findAllOthers(user) {
-        return this.pokemonService.findAllOthers(user.id);
+    findAllOthers(user, page) {
+        const pageNumber = page ? parseInt(page, 10) : 1;
+        return this.pokemonService.findAllOthers(user.id, isNaN(pageNumber) ? 1 : pageNumber);
     }
     findOne(id) {
         return this.pokemonService.findOne(id);
@@ -95,8 +97,9 @@ __decorate([
     }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Sua lista retornou com sucesso.' }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.Query)('page')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], PokemonController.prototype, "findAllMine", null);
 __decorate([
@@ -111,8 +114,9 @@ __decorate([
         description: 'Lista de outros jogadores retornada ocultando parcialmente os e-mails para proteção.',
     }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.Query)('page')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], PokemonController.prototype, "findAllOthers", null);
 __decorate([
